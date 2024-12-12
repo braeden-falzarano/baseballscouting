@@ -1,0 +1,84 @@
+---
+title: "Baseball Scouting Package Overview"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{baseballscouting}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(baseballscouting)
+```
+
+### Welcome to `baseballscouting`
+
+The `baseballscouting` package provides tools to explore and analyze baseball data, helping you uncover where certain pitchers and hitters excel—and where they don't. Additionally, the package includes simulation capabilities that allow you to predict outcomes of matchups between pitchers and batters. This dual focus makes `baseballscouting` an excellent toolkit for both baseball enthusiasts and data analysts.
+
+### What can you do with `baseballscouting`?
+
+#### Analyze Performance Data
+
+With `baseballscouting`, you can dive deep into baseball statistics to:
+
+- Identify where pitchers are most effective by analyzing their pitch locations and outcomes.
+- Discover where hitters perform best by examining their success rates across different pitch types and locations.
+
+By leveraging comprehensive data and powerful visualizations, you can uncover patterns and trends that would otherwise go unnoticed.
+
+#### Simulate Matchups
+
+The package's simulation tools allow you to model hypothetical matchups between pitchers and batters. These simulations take into account factors like:
+
+- The pitcher's tendencies, pitch types, and locations.
+- The hitter's success rates against different pitches and locations.
+
+For example, you can simulate 1,000 at-bats between a specific pitcher and hitter to predict likely outcomes such as strikeouts, walks, and hits. These insights can be used for strategy, analysis, or just for fun.
+
+### Example: Simulating an At-Bat
+
+Here’s how you can use `baseballscouting` to simulate matchups between a pitcher and a batter. Let’s see how Gerrit Cole might fare against Mike Trout over a simulated series of at-bats.
+
+```{r}
+results <- at_bat_sim(
+  pitcher_id = 543037,  # Gerrit Cole
+  batter_id = 545361,   # Mike Trout
+  start_date = "2022-04-01",
+  end_date = "2022-10-01",
+  num_simulations = 1000,
+  num_cores = 2
+)
+```
+
+The output will provide a summary of probabilities for each possible outcome, such as:
+
+- Strikeouts
+- Walks
+- Singles
+- Extra-base hits (doubles, triples, home runs)
+
+This gives you an analytical view of how the matchup could play out based on historical data.
+
+### Why `baseballscouting`?
+
+The package combines the thrill of baseball analysis with robust statistical tools, empowering you to:
+
+- Explore key insights about player performance.
+- Simulate realistic game scenarios.
+- Make data-driven decisions or simply enjoy a deeper understanding of the sport.
+
+### Get Started
+
+To begin, install the package and start exploring! Here are some additional resources to guide you:
+
+- Function documentation: Learn more about specific tools and methods.
+- Data preparation: Ensure you have the required inputs for your analysis and simulations.
+
+We’re excited to see what insights you uncover with `baseballscouting`!

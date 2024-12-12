@@ -1,0 +1,100 @@
+---
+title: "At Bat Simulation"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{at_bat_sim}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+```{r setup}
+library(baseballscouting)
+```
+
+# Introduction
+
+The `at_bat_sim` function simulates at-bat outcomes between a pitcher and a batter using historical data retrieved from Statcast. The function allows users to specify the pitcher, batter, time period, number of simulations, and computational resources (cores).
+
+This vignette demonstrates how to use the `at_bat_sim` function step-by-step, including retrieving data, setting parameters, and interpreting results.
+
+# Function Overview
+
+The `at_bat_sim` function has the following parameters:
+
+- `pitcher_id`: The ID of the pitcher (numeric).
+- `batter_id`: The ID of the batter (numeric).
+- `start_date`: The start date for retrieving data (`YYYY-MM-DD`).
+- `end_date`: The end date for retrieving data (`YYYY-MM-DD`).
+- `num_simulations`: The number of at-bat simulations to perform (default: 1000).
+- `num_cores`: The number of CPU cores to use for parallel processing (default: 2).
+
+The function outputs a data frame summarizing the probabilities of each at-bat outcome.
+
+# Example Usage
+
+## Simulating At-Bats
+
+In this example, we simulate at-bats between Gerrit Cole (pitcher) and Mike Trout (batter) for the 2022 MLB season.
+
+```{r simulate-at-bats}
+results <- at_bat_sim(
+  pitcher_id = 543037,  # Gerrit Cole
+  batter_id = 545361,   # Mike Trout
+  start_date = "2022-04-01",
+  end_date = "2022-10-01",
+  num_simulations = 10000
+)
+```
+
+The function outputs a data frame summarizing the probabilities of each outcome:
+
+## Interpreting the Results
+
+The output data frame contains two columns:
+
+- `Outcome`: The type of event (e.g., strikeout, walk, single, etc.).
+- `Probability`: The likelihood of the event occurring, based on the simulation results.
+
+For example:
+
+| Outcome    | Probability |
+|------------|-------------|
+| strikeout  | 0.23        |
+| walk       | 0.08        |
+| single     | 0.15        |
+| ...        | ...         |
+
+## Adjusting Parameters
+
+You can adjust the number of simulations and cores for better performance:
+
+- Increasing `num_simulations` provides more accurate probabilities but takes longer to compute.
+- Increasing `num_cores` utilizes more CPU cores for faster computation (useful for large simulations).
+
+```{r adjust-parameters}
+results <- at_bat_sim(
+  pitcher_id = 543037,
+  batter_id = 545361,
+  start_date = "2022-04-01",
+  end_date = "2022-10-01",
+  num_simulations = 5000,  # Fewer simulations
+  num_cores = 2            # Use fewer cores
+)
+```
+
+# Notes
+
+1. Ensure that the pitcher and batter IDs are valid Statcast IDs.
+2. The simulation relies on historical data; results are indicative, not predictive.
+3. Parallel processing (`num_cores`) may require additional setup on some systems (e.g., Windows).
+
+# Conclusion
+
+The `at_bat_sim` function provides a powerful way to simulate at-bat outcomes using historical data. By adjusting the parameters, users can explore various scenarios and gain insights into batter-pitcher matchups. For detailed analysis, consider customizing the function or extending the code to include additional metrics.
