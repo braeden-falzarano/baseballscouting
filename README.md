@@ -1,7 +1,8 @@
 
 # baseballscouting
 
-![](man/figures/baseballscouting.png){width=50%}
+![](){width=50%}
+<img src="man/figures/baseballscouting.png" alt="drawing" width="200"/>
 
 <!-- badges: start -->
 <!-- badges: end -->
