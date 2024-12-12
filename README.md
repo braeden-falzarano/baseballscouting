@@ -1,8 +1,7 @@
 
 # baseballscouting
 
-![](){width=50%}
-<img src="man/figures/baseballscouting.png" alt="drawing" width="200"/>
+<img src="man/figures/baseballscouting.png" alt="drawing" width="400"/>
 
 <!-- badges: start -->
 <!-- badges: end -->
@@ -14,7 +13,7 @@ Welcome to `baseballscouting`! Analyze baseball data and simulate matchups betwe
 You can install the development version of baseballscouting like so:
 
 ``` r
-# FILL THIS IN! HOW CAN PEOPLE INSTALL YOUR DEV PACKAGE?
+devtools::install_github("braeden-falzarano/baseballscouting")
 ```
 
 ## How to Use

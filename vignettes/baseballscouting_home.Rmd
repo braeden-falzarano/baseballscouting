@@ -18,13 +18,13 @@ knitr::opts_chunk$set(
 library(baseballscouting)
 ```
 
-### Welcome to `baseballscouting`
+## Welcome to `baseballscouting`
 
 The `baseballscouting` package provides tools to explore and analyze baseball data, helping you uncover where certain pitchers and hitters excel—and where they don't. Additionally, the package includes simulation capabilities that allow you to predict outcomes of matchups between pitchers and batters. This dual focus makes `baseballscouting` an excellent toolkit for both baseball enthusiasts and data analysts.
 
-### What can you do with `baseballscouting`?
+## What can you do with `baseballscouting`?
 
-#### Analyze Performance Data
+### Analyze Performance Data
 
 With `baseballscouting`, you can dive deep into baseball statistics to:
 
@@ -33,7 +33,31 @@ With `baseballscouting`, you can dive deep into baseball statistics to:
 
 By leveraging comprehensive data and powerful visualizations, you can uncover patterns and trends that would otherwise go unnoticed.
 
-#### Simulate Matchups
+#### Example of Analyzing a Hitter with `generate_hitter` Function
+```{r}
+hitter_ids <- c(668804)  # Bryan Reynolds
+start_date <- "2024-01-01"
+end_date <- "2024-12-31"
+generate_hitter(player_ids = hitter_ids, start_date = start_date, end_date = end_date)
+```
+
+The first table shows you the average exit velocity (how fast the ball is hit), average launch angle of the ball, hard hit rate (percentage of percentage of batted balls hit 95 MPH or greater), and strikeout rate (how often a hitter strikes out).
+
+The heatmaps shows you the average exit velocity of batter across different areas of the strike zone. This can give valuable insights into where the hitter struggles and where they excel and give a pitcher a better idea of where to try to pitch them.
+
+#### Example of Analyzing a Hitter with `generate_pitcher` function
+```{r}
+pitcher_ids <- c(605483)  # Gerrit Cole
+start_date <- "2024-01-01"
+end_date <- "2024-12-31"
+generate_pitcher(player_ids = pitcher_ids, start_date = start_date, end_date = end_date)
+```
+
+The first table shows the walk rate (how often pitchers walk batters, given by a proportion of number of walks divided by batters faced) and the strikeout rate (how often a pitcher strikes batters out given by a similar proportion).
+
+The heatmap show how often batters swing and miss at a pitcher's pitches (given by a proportion of number of swings and misses divided by the total number of swings). If a pitcher generates more swings and misses then this is generally a good indicator that their pitches are moving and performing how they want.
+
+### Simulate Matchups
 
 The package's simulation tools allow you to model hypothetical matchups between pitchers and batters. These simulations take into account factors like:
 
@@ -42,7 +66,7 @@ The package's simulation tools allow you to model hypothetical matchups between 
 
 For example, you can simulate 1,000 at-bats between a specific pitcher and hitter to predict likely outcomes such as strikeouts, walks, and hits. These insights can be used for strategy, analysis, or just for fun.
 
-### Example: Simulating an At-Bat
+#### Example: Simulating an At-Bat
 
 Here’s how you can use `baseballscouting` to simulate matchups between a pitcher and a batter. Let’s see how Gerrit Cole might fare against Mike Trout over a simulated series of at-bats.
 
@@ -57,14 +81,29 @@ results <- at_bat_sim(
 )
 ```
 
-The output will provide a summary of probabilities for each possible outcome, such as:
+The output data frame contains two columns:
 
-- Strikeouts
-- Walks
-- Singles
-- Extra-base hits (doubles, triples, home runs)
+- `Outcome`: The type of event (e.g., strikeout, walk, single, etc.).
+- `Probability`: The likelihood of the event occurring, based on the simulation results.
 
-This gives you an analytical view of how the matchup could play out based on historical data.
+For example:
+
+| Outcome    | Probability |
+|------------|-------------|
+| strikeout  | 0.23        |
+| walk       | 0.08        |
+| single     | 0.15        |
+| ...        | ...         |
+
+This gives you an analytical view of how the matchup could play out based on the players' historical data.
+
+#### Adjusting Parameters
+
+You can adjust the number of simulations and cores for better performance:
+
+- Increasing `num_simulations` provides more accurate probabilities but takes longer to compute.
+- Increasing `num_cores` utilizes more CPU cores for faster computation (useful for large simulations).
+
 
 ### Why `baseballscouting`?
 
@@ -74,11 +113,21 @@ The package combines the thrill of baseball analysis with robust statistical too
 - Simulate realistic game scenarios.
 - Make data-driven decisions or simply enjoy a deeper understanding of the sport.
 
-### Get Started
+### Notes
 
-To begin, install the package and start exploring! Here are some additional resources to guide you:
+1. Ensure that the pitcher and batter IDs are valid Statcast IDs.
+2. Parallel processing (`num_cores`) may require additional setup on some systems (e.g., Windows).
 
-- Function documentation: Learn more about specific tools and methods.
-- Data preparation: Ensure you have the required inputs for your analysis and simulations.
+## Get Started
+
+To begin, install the package (code below) and start exploring! Here are some additional resources to guide you:
+
+``` r
+devtools::install_github("braeden-falzarano/baseballscouting")
+```
+
+- [Find a Player's ID Here](https://www.smartfantasybaseball.com/tools/)
+- [Learn More About Advanced Stats Here](https://www.mlb.com/glossary/advanced-stats)
+- [Explore the Full Repository](https://github.com/braeden-falzarano/baseballscouting/)
 
 We’re excited to see what insights you uncover with `baseballscouting`!
