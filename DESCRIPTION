@@ -26,3 +26,5 @@ Suggests:
     knitr,
     rmarkdown
 VignetteBuilder: knitr
+URL: https://github.com/braeden-falzarano/baseballscouting
+BugReports: https://github.com/braeden-falzarano/baseballscouting/issues
