@@ -33,13 +33,16 @@ and generates a strike zone heatmap displaying the most frequently used pitch ty
     <span class="caret"></span>
   </a>
   <ul class="dropdown-menu" role="menu"><li>
-      <a href="../articles/at_bat_sim.html">at_bat_sim</a>
-    </li>
-    <li>
-      <a href="../articles/baseballscouting_home.html">baseballscouting Overview</a>
+      <a href="../articles/baseballscouting_home.html">Baseball Scouting Package Overview</a>
     </li>
   </ul></li>
-      </ul><ul class="nav navbar-nav navbar-right"></ul></div><!--/.nav-collapse -->
+      </ul><ul class="nav navbar-nav navbar-right"><li>
+  <a href="https://github.com/braeden-falzarano/baseballscouting/" class="external-link">
+    <span class="fab fa-github fa-lg"></span>
+
+  </a>
+</li>
+      </ul></div><!--/.nav-collapse -->
   </div><!--/.container -->
 </div><!--/.navbar -->
 
@@ -49,7 +52,7 @@ and generates a strike zone heatmap displaying the most frequently used pitch ty
   <div class="col-md-9 contents">
     <div class="page-header">
     <h1>Generate Pitcher Performance Report</h1>
-
+    <small class="dont-index">Source: <a href="https://github.com/braeden-falzarano/baseballscouting/blob/HEAD/R/generatepitcher.R" class="external-link"><code>R/generatepitcher.R</code></a></small>
     <div class="hidden name"><code>generate_pitcher.Rd</code></div>
     </div>
 
@@ -104,7 +107,9 @@ Additionally, tables summarizing general pitching statistics and pitch-specific 
 <span class="r-in"><span><span class="va">start_date</span> <span class="op">&lt;-</span> <span class="st">"2024-01-01"</span></span></span>
 <span class="r-in"><span><span class="va">end_date</span> <span class="op">&lt;-</span> <span class="st">"2024-12-31"</span></span></span>
 <span class="r-in"><span><span class="fu">generate_pitcher</span><span class="op">(</span>player_ids <span class="op">=</span> <span class="va">pitcher_ids</span>, start_date <span class="op">=</span> <span class="va">start_date</span>, end_date <span class="op">=</span> <span class="va">end_date</span><span class="op">)</span></span></span>
-<span class="r-err co"><span class="r-pr">#&gt;</span> <span class="error">Error in generate_pitcher(player_ids = pitcher_ids, start_date = start_date,     end_date = end_date):</span> could not find function "generate_pitcher"</span>
+<span class="r-msg co"><span class="r-pr">#&gt;</span> Fetching data for player 605483 ...</span>
+<span class="r-plt img"><img src="generate_pitcher-1.png" alt="" width="700" height="433"></span>
+<span class="r-plt img"><img src="generate_pitcher-2.png" alt="" width="700" height="433"></span>
 <span class="r-in"><span></span></span>
 </code></pre></div>
     </div>
@@ -116,7 +121,7 @@ Additionally, tables summarizing general pitching statistics and pitch-specific 
 
 
       <footer><div class="copyright">
-  <p></p><p>Developed by Braeden <a href="mailto:bfalzarano@wesleyan.edu" class="email">bfalzarano@wesleyan.edu</a> Falzarano, Ernie <a href="mailto:elittle@wesleyan.edu" class="email">elittle@wesleyan.edu</a> Little.</p>
+  <p></p><p>Developed by Braeden Falzarano, Ernie Little.</p>
 </div>
 
 <div class="pkgdown">

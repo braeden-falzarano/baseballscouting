@@ -2,8 +2,8 @@ Package: baseballscouting
 Title: Baseball Scouting Report Generation
 Version: 0.0.0.9000
 Authors@R: 
-    c(person("Braeden", "Falzarano","bfalzarano@wesleyan.edu", role=c("aut", "cre")),
-    person("Ernie", "Little","elittle@wesleyan.edu", role="aut"))
+    c(person("Braeden", "Falzarano",,"bfalzarano@wesleyan.edu", role=c("aut", "cre")),
+    person("Ernie", "Little",,"elittle@wesleyan.edu", role="aut"))
 Description: The baseballscouting package allows users to analyze where pitchers and hitchers struggle and where they excel. Beyond this, users can run a simulation to see how the pitcher and batter would fare if they were to face off in a real game. 
 License: MIT + file LICENSE
 Encoding: UTF-8
