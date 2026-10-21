@@ -1,0 +1,15 @@
+url: https://braeden-falzarano.github.io/baseballscouting/
+
+template:
+  bootstrap: 5
+
+reference:
+- title: Scouting reports
+  desc: Pitcher and hitter reports built from Statcast data.
+  contents:
+  - generate_pitcher
+  - generate_hitter
+- title: Matchup simulation
+  desc: Simulate plate appearances between a pitcher and a batter.
+  contents:
+  - at_bat_sim
