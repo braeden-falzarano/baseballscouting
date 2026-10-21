@@ -6,158 +6,174 @@
 #' @param player_ids A vector of numeric player IDs representing the pitchers to analyze.
 #' @param start_date A character string representing the start date of the data range in the format "YYYY-MM-DD".
 #' @param end_date A character string representing the end date of the data range in the format "YYYY-MM-DD".
+#' @param game_types Character vector of Baseball Savant game type codes to include. Default
+#'   `c("R", "PO")` is regular season and postseason; add `"S"` to include spring training.
 #'
-#' @return A `ggplot` object showing the strike zone heatmap with the most frequently used pitch type and whiff rate for each zone.
-#' Additionally, tables summarizing general pitching statistics and pitch-specific statistics are displayed in the viewer.
+#' @return For a single ID, a `ggplot` object showing the strike zone heatmap with the most frequently used
+#' pitch type and whiff rate for each zone (or `NULL`, invisibly, when no data is found).
+#' For several IDs, a named list with one such plot per pitcher, named by player ID.
+#' Additionally, tables summarizing general pitching statistics and pitch-specific statistics are drawn
+#' for each pitcher.
 #'
 #' @details
-#' The function performs the following steps:
+#' The function performs the following steps for each pitcher separately:
 #' - **Fetches player names** using the MLB Stats API.
-#' - **Fetches Statcast data** from Baseball Savant for the specified pitcher(s) and date range.
-#' - **Calculates general statistics** such as walk rate and strikeout rate.
-#' - **Generates pitch-specific statistics** such as the average velocity for each pitch type.
-#' - **Creates a strike zone heatmap** visualizing the most frequently used pitch type and the whiff rate in each strike zone location.
+#' - **Fetches Statcast data** from Baseball Savant for the pitcher and date range. Only `start_date`
+#'   and `end_date` restrict the dates; there is no season filter.
+#' - **Calculates general statistics**: batters faced, walk rate, strikeout rate and whiff rate.
+#' - **Generates pitch-specific statistics**: pitch count, usage, average velocity and whiff rate.
+#' - **Creates a strike zone heatmap** of the most frequently used pitch type and the whiff rate in each of
+#'   the nine Statcast strike zones.
 #'
-#' The results include a strike zone heatmap and summary tables for general and pitch-specific statistics.
+#' Definitions:
+#' - Plate appearances (batters faced) are rows with a non-empty `events` value, excluding baserunning
+#'   events such as `caught_stealing_*` and `pickoff_*` and `truncated_pa`.
+#' - Strikeout rate = (`strikeout` + `strikeout_double_play`) / PA.
+#' - Walk rate = (`walk` + `intent_walk`) / PA. Hit-by-pitch is not counted as a walk.
+#' - Whiff rate = whiffs / swings. Whiffs are `swinging_strike`, `swinging_strike_blocked`, `foul_tip`
+#'   and `missed_bunt`; swings are whiffs plus `foul`, `foul_bunt` and `hit_into_play`. Counting foul tips
+#'   as whiffs matches Baseball Savant's Whiff%.
+#'
+#' The heatmap is drawn from the catcher's view: zone 1 is top-left (third-base side, high) and
+#' zone 9 is bottom-right (first-base side, low).
 #'
 #' @note This function requires an active internet connection to fetch data from the MLB Stats API and Baseball Savant.
 #'
 #' @examples
+#' \donttest{
 #' # Example usage:
-#' pitcher_ids <- c(605483)  # Gerrit Cole
+#' pitcher_ids <- c(543037)  # Gerrit Cole
 #' start_date <- "2024-01-01"
 #' end_date <- "2024-12-31"
 #' generate_pitcher(player_ids = pitcher_ids, start_date = start_date, end_date = end_date)
+#' }
 #'
 #' @import data.table
 #' @import ggplot2
-#' @import httr
-#' @import jsonlite
 #' @importFrom gridExtra grid.arrange tableGrob
 #' @importFrom grid textGrob gpar
-#' @importFrom kableExtra kable
 #'
 #' @export
-generate_pitcher <- function(player_ids, start_date, end_date) {
-  # Fetch player names
-  fetch_player_names <- function(player_ids) {
-    player_info <- lapply(player_ids, function(player_id) {
-      tryCatch({
-        url <- paste0("https://statsapi.mlb.com/api/v1/people/", player_id)
-        response <- fromJSON(content(GET(url), "text", encoding = "UTF-8"))
-        name <- response$people$fullName
-        return(data.frame(player_id = player_id, player_name = name, stringsAsFactors = FALSE))
-      }, error = function(e) {
-        return(data.frame(player_id = player_id, player_name = NA, stringsAsFactors = FALSE))
-      })
-    })
-    player_mapping <- rbindlist(player_info, fill = TRUE)
-    return(player_mapping)
-  }
-
-  # Fetch Statcast data
-  fetch_statcast_data <- function(player_ids, start_date, end_date, player_type) {
-    player_data_list <- lapply(player_ids, function(player_id) {
-      tryCatch({
-        url <- paste0(
-          "https://baseballsavant.mlb.com/statcast_search/csv?all=true",
-          "&hfPT=&hfAB=&hfBBT=&hfPR=&hfZ=&stadium=&hfBBL=&hfNewZones=&hfGT=R%7CPO%7CS%7C",
-          "&hfC&hfSea=2024%7C&hfSit=&hfOuts=&opponent=&pitcher_throws=&batter_stands=",
-          "&hfSA=&player_type=", player_type,
-          "&hfInfield=&team=&position=&hfOutfield=&hfRO=&home_road=",
-          "&", player_type, "s_lookup%5B%5D=", player_id,
-          "&game_date_gt=", start_date, "&game_date_lt=", end_date,
-          "&hfFlag=&hfPull=&metric_1=&hfInn=&min_pitches=0&min_results=0",
-          "&group_by=name&sort_col=pitches&player_event_sort=h_launch_speed",
-          "&sort_order=desc&min_abs=0&type=details"
-        )
-        message(paste("Fetching data for player", player_id, "..."))
-        data <- fread(url, fill = TRUE)
-        if (ncol(data) < 1) stop("No valid data found.")
-        data$player_id <- player_id
-        return(data)
-      }, error = function(e) {
-        message(paste("Error fetching data for player", player_id, ":", e$message))
-        return(NULL)
-      })
-    })
-    combined_data <- rbindlist(player_data_list, fill = TRUE)
-    return(combined_data)
-  }
-
+generate_pitcher <- function(player_ids, start_date, end_date, game_types = c("R", "PO")) {
   # Fetch player names
   player_mapping <- fetch_player_names(player_ids)
 
-  # Fetch Statcast data
-  data <- fetch_statcast_data(player_ids, start_date, end_date, "pitcher")
-  if (is.null(data) || nrow(data) == 0) {
-    cat("No Statcast data available for this pitcher.\n")
-    return(NULL)
+  plots <- lapply(player_ids, function(id) {
+    data <- tryCatch(
+      fetch_statcast_data(id, start_date, end_date, "pitcher", game_types),
+      error = function(e) {
+        message(conditionMessage(e))
+        NULL
+      }
+    )
+    if (is.null(data)) {
+      message("No Statcast data available for pitcher ", id, ".")
+      return(NULL)
+    }
+    pitcher_report(data, player_name_or(player_mapping, id, "Unknown Pitcher"))
+  })
+
+  if (length(player_ids) == 1) {
+    if (is.null(plots[[1]])) return(invisible(NULL))
+    return(plots[[1]])
   }
+  stats::setNames(plots, as.character(player_ids))
+}
 
-  # Get player name
-  player_name <- player_mapping[player_id == data$player_id[1], player_name]
-  if (is.na(player_name)) player_name <- "Unknown Pitcher"
+#' Statcast zones 1-9 laid out from the catcher's view
+#'
+#' Zones run left to right, top to bottom: 1 = top-left, 3 = top-right, 7 = bottom-left.
+#' @noRd
+zone_grid <- function() {
+  data.table(
+    zone = 1:9,
+    x = rep(1:3, times = 3),
+    y = rep(3:1, each = 3)
+  )
+}
 
+#' Most-used pitch and whiff rate per swing for strike zones 1-9
+#' @noRd
+pitcher_zone_summary <- function(data) {
+  data <- as.data.table(data)
+  zone_performance <- data[!is.na(zone) & zone %in% 1:9, .(
+    most_used_pitch = {
+      pt <- pitch_type[!is.na(pitch_type) & nzchar(pitch_type)]
+      if (length(pt) == 0) NA_character_ else names(which.max(table(pt)))
+    },
+    whiff_rate = round(whiff_rate_per_swing(description), 3)
+  ), by = zone]
+  combined <- merge(zone_grid(), zone_performance, by = "zone", all.x = TRUE)
+  combined[is.na(most_used_pitch), most_used_pitch := "No Data"]
+  combined[]
+}
+
+#' Per-pitch-type summary table
+#' @noRd
+pitcher_pitch_summary <- function(data) {
+  data <- as.data.table(data)
+  data <- data[!is.na(pitch_type) & nzchar(pitch_type)]
+  pitch_stats <- data[, .(
+    pitches = .N,
+    avg_velocity = round(mean(release_speed, na.rm = TRUE), 1),
+    whiff_rate = round(whiff_rate_per_swing(description), 3)
+  ), by = pitch_type]
+  pitch_stats[, usage := round(pitches / sum(pitches), 3)]
+  setcolorder(pitch_stats, c("pitch_type", "pitches", "usage", "avg_velocity", "whiff_rate"))
+  pitch_stats[order(-avg_velocity)]
+}
+
+#' Build the report for one pitcher's data: draw the tables, return the zone plot
+#' @noRd
+pitcher_report <- function(data, player_name) {
   ## === GENERAL STATS ===
-  total_plate_appearances <- sum(data$events %in% c(
-    "single", "double", "triple", "home_run", "strikeout", "walk", "hit_by_pitch",
-    "field_out", "groundout", "flyout", "lineout", "sac_fly", "sac_bunt", "force_out"
-  ))
-
-  walk_rate <- round(sum(data$events == "walk") / total_plate_appearances, 3)
-  strikeout_rate <- round(sum(data$events == "strikeout") / total_plate_appearances, 3)
-
+  pa <- pa_summary(data)
   general_stats <- data.table(
-    Metric = c("Walk Rate", "Strikeout Rate"),
-    Value = c(walk_rate, strikeout_rate)
+    Metric = c("Batters Faced", "Walk Rate", "Strikeout Rate", "Whiff Rate (per swing)"),
+    Value = c(pa$pa, round(pa$bb_rate, 3), round(pa$k_rate, 3),
+              round(whiff_rate_per_swing(data$description), 3))
   )
 
   ## === PITCH-SPECIFIC STATS ===
-  pitch_stats <- data[, .(
-    avg_velocity = round(mean(release_speed, na.rm = TRUE), 1)
-  ), by = pitch_type]
-  pitch_stats <- pitch_stats[order(-avg_velocity)]
+  pitch_stats <- pitcher_pitch_summary(data)
 
   ## === STRIKE ZONE PLOT ===
-  # Define zone mapping
-  zone_mapping <- data.table(
-    zone = 1:9,
-    x = rep(1:3, each = 3),
-    y = rep(3:1, times = 3)
-  )
+  combined_zone_data <- pitcher_zone_summary(data)
+  max_whiff <- suppressWarnings(max(combined_zone_data$whiff_rate, na.rm = TRUE))
+  upper <- max(0.4, ceiling(max(max_whiff, 0) * 10) / 10)
+  combined_zone_data[, label := paste0(
+    "Zone ", zone, "\n", most_used_pitch, "\n",
+    ifelse(is.na(whiff_rate), "No swings", paste0(round(100 * whiff_rate), "% whiff"))
+  )]
+  combined_zone_data[, text_color := ifelse(!is.na(whiff_rate) & whiff_rate > upper / 2,
+                                            "white", "black")]
 
-  # Calculate performance metrics for each zone
-  zone_performance <- data[, .(
-    most_used_pitch = names(which.max(table(pitch_type))),
-    whiff_rate = round(sum(description == "swinging_strike") / .N, 2)
-  ), by = zone]
-
-  combined_zone_data <- merge(zone_mapping, zone_performance, by = "zone", all.x = TRUE)
-  combined_zone_data[is.na(most_used_pitch), most_used_pitch := "No Data"]
-
-  # Create strike zone plot
   combined_plot <- ggplot(combined_zone_data, aes(x = x, y = y)) +
     geom_tile(aes(fill = whiff_rate), color = "black", alpha = 0.9) +
-    geom_text(
-      aes(label = paste0("Pitch: ", most_used_pitch)),
-      size = 3.5, color = "white", fontface = "bold"
-    ) +
+    geom_text(aes(label = label, color = text_color), size = 3.5, fontface = "bold") +
+    scale_color_identity() +
     scale_fill_gradientn(
       colors = c("white", "lightblue", "blue", "darkblue"),
-      name = "Whiff Rate",
-      limits = c(0, 0.2)
+      name = "Whiff Rate\n(per swing)",
+      limits = c(0, upper),
+      na.value = "grey85"
     ) +
+    scale_x_continuous(breaks = 1:3, labels = c("3B side", "Middle", "1B side")) +
+    scale_y_continuous(breaks = 1:3, labels = c("Low", "Middle", "High")) +
     labs(
       title = paste("Pitch Performance by Zone for", player_name),
-      x = "Horizontal Location (Grid)",
-      y = "Vertical Location (Grid)"
+      subtitle = "Statcast zones 1-9, catcher's view",
+      x = "Horizontal Location (catcher's view)",
+      y = "Vertical Location"
     ) +
+    coord_fixed() +
     theme_minimal(base_size = 14) +
     theme(
       plot.title = element_text(hjust = 0.5, size = 16, face = "bold"),
+      plot.subtitle = element_text(hjust = 0.5),
       axis.text = element_text(size = 12),
-      axis.title = element_text(size = 14)
+      axis.title = element_text(size = 14),
+      panel.grid = element_blank()
     )
 
   ## === DISPLAY GENERAL STATS AS A TABLE ===
@@ -172,10 +188,6 @@ generate_pitcher <- function(player_ids, start_date, end_date) {
     ncol = 1
   )
 
-  ## === DISPLAY STRIKE ZONE PLOT ===
-  #print(combined_plot)
-
   # Return plot for further use
   return(combined_plot)
 }
-

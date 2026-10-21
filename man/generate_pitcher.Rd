@@ -4,7 +4,7 @@
 \alias{generate_pitcher}
 \title{Generate Pitcher Performance Report}
 \usage{
-generate_pitcher(player_ids, start_date, end_date)
+generate_pitcher(player_ids, start_date, end_date, game_types = c("R", "PO"))
 }
 \arguments{
 \item{player_ids}{A vector of numeric player IDs representing the pitchers to analyze.}
@@ -12,35 +12,56 @@ generate_pitcher(player_ids, start_date, end_date)
 \item{start_date}{A character string representing the start date of the data range in the format "YYYY-MM-DD".}
 
 \item{end_date}{A character string representing the end date of the data range in the format "YYYY-MM-DD".}
+
+\item{game_types}{Character vector of Baseball Savant game type codes to include. Default
+\code{c("R", "PO")} is regular season and postseason; add \code{"S"} to include spring training.}
 }
 \value{
-A \code{ggplot} object showing the strike zone heatmap with the most frequently used pitch type and whiff rate for each zone.
-Additionally, tables summarizing general pitching statistics and pitch-specific statistics are displayed in the viewer.
+For a single ID, a \code{ggplot} object showing the strike zone heatmap with the most frequently used
+pitch type and whiff rate for each zone (or \code{NULL}, invisibly, when no data is found).
+For several IDs, a named list with one such plot per pitcher, named by player ID.
+Additionally, tables summarizing general pitching statistics and pitch-specific statistics are drawn
+for each pitcher.
 }
 \description{
 This function fetches Statcast data for a given pitcher or list of pitchers, calculates key performance metrics,
 and generates a strike zone heatmap displaying the most frequently used pitch type and whiff rate for each zone.
 }
 \details{
-The function performs the following steps:
+The function performs the following steps for each pitcher separately:
 \itemize{
 \item \strong{Fetches player names} using the MLB Stats API.
-\item \strong{Fetches Statcast data} from Baseball Savant for the specified pitcher(s) and date range.
-\item \strong{Calculates general statistics} such as walk rate and strikeout rate.
-\item \strong{Generates pitch-specific statistics} such as the average velocity for each pitch type.
-\item \strong{Creates a strike zone heatmap} visualizing the most frequently used pitch type and the whiff rate in each strike zone location.
+\item \strong{Fetches Statcast data} from Baseball Savant for the pitcher and date range. Only \code{start_date}
+and \code{end_date} restrict the dates; there is no season filter.
+\item \strong{Calculates general statistics}: batters faced, walk rate, strikeout rate and whiff rate.
+\item \strong{Generates pitch-specific statistics}: pitch count, usage, average velocity and whiff rate.
+\item \strong{Creates a strike zone heatmap} of the most frequently used pitch type and the whiff rate in each of
+the nine Statcast strike zones.
 }
 
-The results include a strike zone heatmap and summary tables for general and pitch-specific statistics.
+Definitions:
+\itemize{
+\item Plate appearances (batters faced) are rows with a non-empty \code{events} value, excluding baserunning
+events such as \verb{caught_stealing_*} and \verb{pickoff_*} and \code{truncated_pa}.
+\item Strikeout rate = (\code{strikeout} + \code{strikeout_double_play}) / PA.
+\item Walk rate = (\code{walk} + \code{intent_walk}) / PA. Hit-by-pitch is not counted as a walk.
+\item Whiff rate = whiffs / swings. Whiffs are \code{swinging_strike}, \code{swinging_strike_blocked} and \code{missed_bunt};
+swings are whiffs plus \code{foul}, \code{foul_tip}, \code{foul_bunt} and \code{hit_into_play}.
+}
+
+The heatmap is drawn from the catcher's view: zone 1 is top-left (third-base side, high) and
+zone 9 is bottom-right (first-base side, low).
 }
 \note{
 This function requires an active internet connection to fetch data from the MLB Stats API and Baseball Savant.
 }
 \examples{
+\donttest{
 # Example usage:
-pitcher_ids <- c(605483)  # Gerrit Cole
+pitcher_ids <- c(543037)  # Gerrit Cole
 start_date <- "2024-01-01"
 end_date <- "2024-12-31"
 generate_pitcher(player_ids = pitcher_ids, start_date = start_date, end_date = end_date)
+}
 
 }

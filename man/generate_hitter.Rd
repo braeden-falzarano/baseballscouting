@@ -4,7 +4,7 @@
 \alias{generate_hitter}
 \title{Generate Hitter Performance Report}
 \usage{
-generate_hitter(player_ids, start_date, end_date)
+generate_hitter(player_ids, start_date, end_date, game_types = c("R", "PO"))
 }
 \arguments{
 \item{player_ids}{A vector of numeric player IDs representing the hitters to analyze.}
@@ -12,36 +12,54 @@ generate_hitter(player_ids, start_date, end_date)
 \item{start_date}{A character string representing the start date of the data range in the format "YYYY-MM-DD".}
 
 \item{end_date}{A character string representing the end date of the data range in the format "YYYY-MM-DD".}
+
+\item{game_types}{Character vector of Baseball Savant game type codes to include. Default
+\code{c("R", "PO")} is regular season and postseason; add \code{"S"} to include spring training.}
 }
 \value{
-A \code{ggplot} object showing the central strike zone heatmap with average exit velocity.
-Additionally, tables summarizing general hitting statistics are displayed in the viewer.
+For a single ID, a \code{ggplot} object showing the central strike zone heatmap with average exit velocity
+(or \code{NULL}, invisibly, when no data is found). For several IDs, a named list with one such plot per hitter,
+named by player ID. Additionally, a table summarizing general hitting statistics is drawn for each hitter.
 }
 \description{
 This function fetches Statcast data for a given hitter or list of hitters, calculates key performance metrics,
 and generates a strike zone heatmap displaying the average exit velocity in the central zone.
 }
 \details{
-The function performs the following:
+The function performs the following for each hitter separately:
 \itemize{
 \item Fetches player names using the MLB Stats API.
-\item Fetches Statcast data from Baseball Savant for the specified hitter(s) and date range.
-\item Filters data to include only balls in play.
-\item Calculates key metrics such as average exit velocity, launch angle, hard-hit rate, and strikeout rate.
+\item Fetches Statcast data from Baseball Savant for the hitter and date range. Only \code{start_date} and
+\code{end_date} restrict the dates; there is no season filter.
+\item Identifies batted balls: plate appearances ending in a hit, an in-play out, a fielder's choice,
+an error or a sacrifice.
+\item Calculates key metrics such as average exit velocity, launch angle, hard-hit rate, strikeout rate
+and walk rate.
 \item Creates a strike zone heatmap focusing on the central strike zone.
 }
 
-The results include a heatmap visualizing average exit velocity in different strike zone regions and
-a table summarizing key performance metrics.
+Definitions:
+\itemize{
+\item Plate appearances are rows with a non-empty \code{events} value, excluding baserunning events and
+\code{truncated_pa}.
+\item Hard-hit rate = batted balls with exit velocity of 95 mph or more / batted balls with a recorded
+exit velocity.
+\item Strikeout rate = (\code{strikeout} + \code{strikeout_double_play}) / PA. Walk rate = (\code{walk} + \code{intent_walk}) / PA.
+}
+
+The heatmap covers \code{plate_x} from -1 to 1 ft and \code{plate_z} from 1 to 3.5 ft in 0.5 ft cells,
+drawn from the catcher's view (negative \code{plate_x} is the third-base side).
 }
 \note{
 This function requires an active internet connection to fetch data from the MLB Stats API and Baseball Savant.
 }
 \examples{
+\donttest{
 # Example usage:
 hitter_ids <- c(668804)  # Bryan Reynolds
 start_date <- "2024-01-01"
 end_date <- "2024-12-31"
 generate_hitter(player_ids = hitter_ids, start_date = start_date, end_date = end_date)
+}
 
 }
