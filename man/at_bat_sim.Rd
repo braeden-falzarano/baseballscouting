@@ -45,8 +45,8 @@ It is normalized to sum to 1. Default \code{NULL} uses an approximate MLB averag
 player's outcome rates toward \code{league_rates}. Default is 50.}
 
 \item{location_prior_pa}{Numeric. Prior strength, in plate appearances, used to shrink
-the batter's hit rate in each pitch type and location bin toward his pitch-type rate,
-and his pitch-type rate toward his overall rate. Default is 20.}
+the batter's hit rate in each pitch type and location bin toward the batter's pitch-type rate,
+and the pitch-type rate toward the batter's overall rate. Default is 20.}
 
 \item{multiplier_range}{Numeric vector of length 2. The location/pitch-type multiplier
 applied to hit outcomes is clipped to this range. Default is \code{c(0.5, 2)}.}
@@ -78,7 +78,7 @@ row whose \code{events} is non-empty.
 \itemize{
 \item \code{strikeout}, \code{strikeout_double_play} become \strong{strikeout}.
 \item \code{walk}, \code{intent_walk} and \code{hit_by_pitch} become \strong{walk}. Hit-by-pitch is folded in
-because it has the same result for the batter (he takes first base).
+because it has the same result for the batter (they reach first base).
 \item \code{single}, \code{double}, \code{triple}, \code{home_run} map to themselves.
 \item Other in-play outs, fielder's choices, reached-on-error and sacrifices
 (\code{field_out}, \code{force_out}, \code{grounded_into_double_play}, \code{double_play}, \code{triple_play},
@@ -103,14 +103,14 @@ season-specific. Supply \code{league_rates} to use your own.
 
 \strong{Pitch type and location.} For each simulated PA a pitch type is sampled from the
 pitcher's mix of PA-ending pitches, and a location from a 2D kernel density estimate
-(\code{\link[MASS:kde2d]{MASS::kde2d()}}, 50 x 50 grid, uniform jitter within the grid cell) of his PA-ending
+(\code{\link[MASS:kde2d]{MASS::kde2d()}}, 50 x 50 grid, uniform jitter within the grid cell) of the pitcher's PA-ending
 pitches of that type. Pitch types with fewer than 30 PA-ending pitches use the KDE of all
-his PA-ending pitches. The batter's hit rate (hits per PA) is computed in 0.5 ft bins of
-\code{plate_x} (-2 to 2) and \code{plate_z} (0 to 5) for each pitch type, shrunk toward his rate on
-that pitch type, which is shrunk toward his overall rate (both with \code{location_prior_pa}).
+the pitcher's PA-ending pitches. The batter's hit rate (hits per PA) is computed in 0.5 ft bins of
+\code{plate_x} (-2 to 2) and \code{plate_z} (0 to 5) for each pitch type, shrunk toward the batter's rate on
+that pitch type, which is shrunk toward the overall rate (both with \code{location_prior_pa}).
 The four hit outcomes are multiplied by \verb{bin rate / overall rate}, clipped to
 \code{multiplier_range}, and the probabilities are renormalized. When the batter has no PAs in a
-bin, the bin rate equals his pitch-type rate; when he has never ended a PA on that pitch
+bin, the bin rate equals the pitch-type rate; when the batter has never ended a PA on that pitch
 type, or the location falls outside the bins, the multiplier is 1. A missing bin never
 produces a strikeout. Pitch types must match exactly (for example, \code{SI} and \code{FF} are
 different pitches).
@@ -119,7 +119,7 @@ different pitches).
 count and pitch sequencing are not modeled, and there are no park, handedness or
 platoon adjustments beyond what is already in each player's own data. The location
 adjustment is relative to the batter's own average, so a pitcher's location tendencies
-are partly reflected both in his outcome rates and in the multiplier.
+are partly reflected both in the pitcher's outcome rates and in the multiplier.
 
 \strong{Reproducibility.} Simulations run in fixed chunks of 1000 PAs, and each chunk gets
 its own L'Ecuyer-CMRG random-number stream derived from \code{seed}

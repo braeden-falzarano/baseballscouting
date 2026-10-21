@@ -1,11 +1,14 @@
 # Internal helpers shared by generate_pitcher(), generate_hitter() and at_bat_sim().
 
+#' @importFrom utils globalVariables
+NULL
+
 utils::globalVariables(c(
   "description", "events", "game_date", "launch_speed", "launch_angle",
   "pitch_type", "plate_x", "plate_z", "player_id", "player_name",
   "release_speed", "zone", "x", "y", "whiff_rate", "most_used_pitch",
   "grid_x", "grid_z", "avg_exit_velocity", "label", "text_color", "pitches",
-  "usage", "."
+  "usage", "avg_velocity", "."
 ))
 
 ## === EVENT DEFINITIONS ===

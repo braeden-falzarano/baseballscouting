@@ -45,8 +45,9 @@ Definitions:
 events such as \verb{caught_stealing_*} and \verb{pickoff_*} and \code{truncated_pa}.
 \item Strikeout rate = (\code{strikeout} + \code{strikeout_double_play}) / PA.
 \item Walk rate = (\code{walk} + \code{intent_walk}) / PA. Hit-by-pitch is not counted as a walk.
-\item Whiff rate = whiffs / swings. Whiffs are \code{swinging_strike}, \code{swinging_strike_blocked} and \code{missed_bunt};
-swings are whiffs plus \code{foul}, \code{foul_tip}, \code{foul_bunt} and \code{hit_into_play}.
+\item Whiff rate = whiffs / swings. Whiffs are \code{swinging_strike}, \code{swinging_strike_blocked}, \code{foul_tip}
+and \code{missed_bunt}; swings are whiffs plus \code{foul}, \code{foul_bunt} and \code{hit_into_play}. Counting foul tips
+as whiffs matches Baseball Savant's Whiff\%.
 }
 
 The heatmap is drawn from the catcher's view: zone 1 is top-left (third-base side, high) and

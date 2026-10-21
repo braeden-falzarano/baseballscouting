@@ -20,8 +20,8 @@
 #' @param prior_pa Numeric. Prior strength, in plate appearances, used to shrink each
 #'   player's outcome rates toward `league_rates`. Default is 50.
 #' @param location_prior_pa Numeric. Prior strength, in plate appearances, used to shrink
-#'   the batter's hit rate in each pitch type and location bin toward his pitch-type rate,
-#'   and his pitch-type rate toward his overall rate. Default is 20.
+#'   the batter's hit rate in each pitch type and location bin toward the batter's pitch-type rate,
+#'   and the pitch-type rate toward the batter's overall rate. Default is 20.
 #' @param multiplier_range Numeric vector of length 2. The location/pitch-type multiplier
 #'   applied to hit outcomes is clipped to this range. Default is `c(0.5, 2)`.
 #' @param game_types Character vector of Baseball Savant game type codes to include.
@@ -42,7 +42,7 @@
 #' **Outcome mapping.** Statcast `events` are mapped to eight outcomes:
 #' - `strikeout`, `strikeout_double_play` become **strikeout**.
 #' - `walk`, `intent_walk` and `hit_by_pitch` become **walk**. Hit-by-pitch is folded in
-#'   because it has the same result for the batter (he takes first base).
+#'   because it has the same result for the batter (they reach first base).
 #' - `single`, `double`, `triple`, `home_run` map to themselves.
 #' - Other in-play outs, fielder's choices, reached-on-error and sacrifices
 #'   (`field_out`, `force_out`, `grounded_into_double_play`, `double_play`, `triple_play`,
@@ -66,14 +66,14 @@
 #'
 #' **Pitch type and location.** For each simulated PA a pitch type is sampled from the
 #' pitcher's mix of PA-ending pitches, and a location from a 2D kernel density estimate
-#' ([MASS::kde2d()], 50 x 50 grid, uniform jitter within the grid cell) of his PA-ending
+#' ([MASS::kde2d()], 50 x 50 grid, uniform jitter within the grid cell) of the pitcher's PA-ending
 #' pitches of that type. Pitch types with fewer than 30 PA-ending pitches use the KDE of all
-#' his PA-ending pitches. The batter's hit rate (hits per PA) is computed in 0.5 ft bins of
-#' `plate_x` (-2 to 2) and `plate_z` (0 to 5) for each pitch type, shrunk toward his rate on
-#' that pitch type, which is shrunk toward his overall rate (both with `location_prior_pa`).
+#' the pitcher's PA-ending pitches. The batter's hit rate (hits per PA) is computed in 0.5 ft bins of
+#' `plate_x` (-2 to 2) and `plate_z` (0 to 5) for each pitch type, shrunk toward the batter's rate on
+#' that pitch type, which is shrunk toward the overall rate (both with `location_prior_pa`).
 #' The four hit outcomes are multiplied by `bin rate / overall rate`, clipped to
 #' `multiplier_range`, and the probabilities are renormalized. When the batter has no PAs in a
-#' bin, the bin rate equals his pitch-type rate; when he has never ended a PA on that pitch
+#' bin, the bin rate equals the pitch-type rate; when the batter has never ended a PA on that pitch
 #' type, or the location falls outside the bins, the multiplier is 1. A missing bin never
 #' produces a strikeout. Pitch types must match exactly (for example, `SI` and `FF` are
 #' different pitches).
@@ -82,7 +82,7 @@
 #' count and pitch sequencing are not modeled, and there are no park, handedness or
 #' platoon adjustments beyond what is already in each player's own data. The location
 #' adjustment is relative to the batter's own average, so a pitcher's location tendencies
-#' are partly reflected both in his outcome rates and in the multiplier.
+#' are partly reflected both in the pitcher's outcome rates and in the multiplier.
 #'
 #' **Reproducibility.** Simulations run in fixed chunks of 1000 PAs, and each chunk gets
 #' its own L'Ecuyer-CMRG random-number stream derived from `seed`
@@ -132,12 +132,12 @@ at_bat_sim <- function(pitcher_id, batter_id, start_date, end_date, num_simulati
 
   if (model$pitcher_pa < 50) {
     warning("Pitcher ", pitcher_id, " has only ", model$pitcher_pa,
-            " plate appearances in this window; his rates lean heavily on the league prior.",
+            " plate appearances in this window; the rates lean heavily on the league prior.",
             call. = FALSE)
   }
   if (model$batter_pa < 50) {
     warning("Batter ", batter_id, " has only ", model$batter_pa,
-            " plate appearances in this window; his rates lean heavily on the league prior.",
+            " plate appearances in this window; the rates lean heavily on the league prior.",
             call. = FALSE)
   }
   if (verbose) {
