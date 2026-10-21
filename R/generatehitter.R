@@ -111,12 +111,12 @@ hitter_report <- function(data, player_name) {
   general_stats <- data.table(
     Metric = c("Plate Appearances", "Avg Exit Velocity", "Avg Launch Angle", "Hard Hit Rate",
                "Strikeout Rate", "Walk Rate"),
-    Value = c(pa$pa,
-              round(mean(bip_data$launch_speed, na.rm = TRUE), 1),
-              round(mean(bip_data$launch_angle, na.rm = TRUE), 1),
-              round(hard_hit_rate(bip_data$launch_speed), 3),
-              round(pa$k_rate, 3),
-              round(pa$bb_rate, 3))
+    Value = c(format(pa$pa),
+              format_stat(mean(bip_data$launch_speed, na.rm = TRUE), 1),
+              format_stat(mean(bip_data$launch_angle, na.rm = TRUE), 1),
+              format_stat(hard_hit_rate(bip_data$launch_speed), 3),
+              format_stat(pa$k_rate, 3),
+              format_stat(pa$bb_rate, 3))
   )
 
   ## === STRIKE ZONE PLOT ===

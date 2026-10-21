@@ -130,8 +130,8 @@ pitcher_report <- function(data, player_name) {
   pa <- pa_summary(data)
   general_stats <- data.table(
     Metric = c("Batters Faced", "Walk Rate", "Strikeout Rate", "Whiff Rate (per swing)"),
-    Value = c(pa$pa, round(pa$bb_rate, 3), round(pa$k_rate, 3),
-              round(whiff_rate_per_swing(data$description), 3))
+    Value = c(format(pa$pa), format_stat(pa$bb_rate, 3), format_stat(pa$k_rate, 3),
+              format_stat(whiff_rate_per_swing(data$description), 3))
   )
 
   ## === PITCH-SPECIFIC STATS ===

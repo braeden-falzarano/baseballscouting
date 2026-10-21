@@ -191,6 +191,11 @@ fetch_player_names <- function(player_ids, timeout_sec = 30) {
   rbindlist(player_info, fill = TRUE)
 }
 
+# Fixed-decimal text for report tables, so counts and rates can share a column.
+format_stat <- function(x, digits) {
+  if (is.na(x)) "NA" else formatC(x, format = "f", digits = digits)
+}
+
 player_name_or <- function(player_mapping, id, fallback) {
   name <- player_mapping$player_name[match(id, player_mapping$player_id)]
   if (length(name) == 0 || is.na(name)) fallback else name
