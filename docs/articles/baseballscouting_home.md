@@ -7,11 +7,9 @@ library(baseballscouting)
 ## Welcome to `baseballscouting`
 
 The `baseballscouting` package provides tools to explore and analyze
-baseball data, helping you uncover where certain pitchers and hitters
-excel—and where they don’t. Additionally, the package includes
-simulation capabilities that allow you to predict outcomes of matchups
-between pitchers and batters. This dual focus makes `baseballscouting`
-an excellent toolkit for both baseball enthusiasts and data analysts.
+baseball data, helping you understand where certain pitchers and hitters
+excel. Additionally, the package includes simulation capabilities that
+allow you to predict outcomes of matchups between pitchers and batters.
 
 All data is downloaded live from [Baseball
 Savant](https://baseballsavant.mlb.com/) (Statcast) and the MLB Stats
@@ -32,7 +30,7 @@ With `baseballscouting`, you can dive deep into baseball statistics to:
   across different pitch types and locations.
 
 By leveraging comprehensive data and powerful visualizations, you can
-uncover patterns and trends that would otherwise go unnoticed.
+uncover patterns and trends.
 
 #### Example of Analyzing a Hitter with `generate_hitter` Function
 
@@ -234,8 +232,8 @@ Main assumptions and limitations:
 
 - Each plate appearance is decided by one sampled decisive pitch. The
   ball-strike count and pitch sequencing are not modeled.
-- There are no park, handedness (platoon) or weather adjustments, beyond
-  what is already reflected in each player’s own data for the window.
+- There are no park, handedness or weather adjustments, beyond what is
+  already reflected in each player’s own data for the window.
 - The league baseline is an approximate constant MLB average (strikeout
   23%, walk 8%, single 15%, and so on), not a season-specific value. You
   can supply your own with `league_rates`.

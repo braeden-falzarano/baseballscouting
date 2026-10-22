@@ -23,7 +23,7 @@ library(baseballscouting)
 
 ## Welcome to `baseballscouting`
 
-The `baseballscouting` package provides tools to explore and analyze baseball data, helping you uncover where certain pitchers and hitters excel—and where they don't. Additionally, the package includes simulation capabilities that allow you to predict outcomes of matchups between pitchers and batters. This dual focus makes `baseballscouting` an excellent toolkit for both baseball enthusiasts and data analysts.
+The `baseballscouting` package provides tools to explore and analyze baseball data, helping you understand where certain pitchers and hitters excel. Additionally, the package includes simulation capabilities that allow you to predict outcomes of matchups between pitchers and batters.
 
 All data is downloaded live from [Baseball Savant](https://baseballsavant.mlb.com/) (Statcast) and the MLB Stats API, so every example needs an internet connection. The `start_date` and `end_date` arguments control the data window. By default, regular-season and postseason games are included and spring training is excluded; use the `game_types` argument to change this.
 
@@ -36,7 +36,7 @@ With `baseballscouting`, you can dive deep into baseball statistics to:
 - Identify where pitchers are most effective by analyzing their pitch locations and outcomes.
 - Discover where hitters perform best by examining their success rates across different pitch types and locations.
 
-By leveraging comprehensive data and powerful visualizations, you can uncover patterns and trends that would otherwise go unnoticed.
+By leveraging comprehensive data and powerful visualizations, you can uncover patterns and trends. 
 
 #### Example of Analyzing a Hitter with `generate_hitter` Function
 ```{r hitter, fig.alt = c("Table of Bryan Reynolds' 2024 hitting statistics", "Heat map of Bryan Reynolds' average exit velocity across the central strike zone")}
@@ -138,7 +138,7 @@ Each simulated plate appearance goes through four steps:
 Main assumptions and limitations:
 
 - Each plate appearance is decided by one sampled decisive pitch. The ball-strike count and pitch sequencing are not modeled.
-- There are no park, handedness (platoon) or weather adjustments, beyond what is already reflected in each player's own data for the window.
+- There are no park, handedness or weather adjustments, beyond what is already reflected in each player's own data for the window.
 - The league baseline is an approximate constant MLB average (strikeout 23%, walk 8%, single 15%, and so on), not a season-specific value. You can supply your own with `league_rates`.
 - Hit-by-pitch is counted as a walk, and catcher's interference is left out.
 - When both players are above league average at an outcome, the odds-ratio method predicts a rate above both of them. For example, Cole and Trout both struck out more than the league in 2022, so the simulated strikeout rate is higher than either player's own rate.

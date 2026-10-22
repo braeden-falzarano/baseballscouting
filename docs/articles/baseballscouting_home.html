@@ -71,12 +71,10 @@
 <h2 id="welcome-to-baseballscouting">Welcome to <code>baseballscouting</code><a class="anchor" aria-label="anchor" href="#welcome-to-baseballscouting"></a>
 </h2>
 <p>The <code>baseballscouting</code> package provides tools to explore
-and analyze baseball data, helping you uncover where certain pitchers
-and hitters excel—and where they don’t. Additionally, the package
-includes simulation capabilities that allow you to predict outcomes of
-matchups between pitchers and batters. This dual focus makes
-<code>baseballscouting</code> an excellent toolkit for both baseball
-enthusiasts and data analysts.</p>
+and analyze baseball data, helping you understand where certain pitchers
+and hitters excel. Additionally, the package includes simulation
+capabilities that allow you to predict outcomes of matchups between
+pitchers and batters.</p>
 <p>All data is downloaded live from <a href="https://baseballsavant.mlb.com/" class="external-link">Baseball Savant</a> (Statcast)
 and the MLB Stats API, so every example needs an internet connection.
 The <code>start_date</code> and <code>end_date</code> arguments control
@@ -99,7 +97,7 @@ locations and outcomes.</li>
 across different pitch types and locations.</li>
 </ul>
 <p>By leveraging comprehensive data and powerful visualizations, you can
-uncover patterns and trends that would otherwise go unnoticed.</p>
+uncover patterns and trends.</p>
 <div class="section level4">
 <h4 id="example-of-analyzing-a-hitter-with-generate_hitter-function">Example of Analyzing a Hitter with <code>generate_hitter</code>
 Function<a class="anchor" aria-label="anchor" href="#example-of-analyzing-a-hitter-with-generate_hitter-function"></a>
@@ -327,9 +325,8 @@ across all simulated plate appearances.</li>
 <ul>
 <li>Each plate appearance is decided by one sampled decisive pitch. The
 ball-strike count and pitch sequencing are not modeled.</li>
-<li>There are no park, handedness (platoon) or weather adjustments,
-beyond what is already reflected in each player’s own data for the
-window.</li>
+<li>There are no park, handedness or weather adjustments, beyond what is
+already reflected in each player’s own data for the window.</li>
 <li>The league baseline is an approximate constant MLB average
 (strikeout 23%, walk 8%, single 15%, and so on), not a season-specific
 value. You can supply your own with <code>league_rates</code>.</li>
