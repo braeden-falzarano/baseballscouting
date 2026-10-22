@@ -4,96 +4,69 @@
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <meta charset="utf-8">
 <meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 <title>Baseball Scouting Package Overview • baseballscouting</title>
-<!-- jquery --><script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.1/jquery.min.js" integrity="sha512-v2CJ7UaYy4JwqLDIrZUI/4hqeoQieOmAZNXBeQyjo21dadnwR+8ZaIJVT8EE2iyI61OV8e6M8PP2/4hpQINQ/g==" crossorigin="anonymous" referrerpolicy="no-referrer"></script><!-- Bootstrap --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/css/bootstrap.min.css" integrity="sha256-bZLfwXAP04zRMK2BjiO8iu9pf4FbLqX6zitd+tIvLhE=" crossorigin="anonymous">
-<script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.4.1/js/bootstrap.min.js" integrity="sha256-nuL8/2cJ5NDSSwnKD8VqreErSWHtnEP9E7AySL+1ev4=" crossorigin="anonymous"></script><!-- bootstrap-toc --><link rel="stylesheet" href="../bootstrap-toc.css">
-<script src="../bootstrap-toc.js"></script><!-- Font Awesome icons --><link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/all.min.css" integrity="sha256-mmgLkCYLUQbXn0B1SRqzHar6dCnv9oZFPEC1g1cwlkk=" crossorigin="anonymous">
-<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.12.1/css/v4-shims.min.css" integrity="sha256-wZjR52fzng1pJHwx4aV2AO3yyTOXrcDW7jBpJtTwVxw=" crossorigin="anonymous">
-<!-- clipboard.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/clipboard.js/2.0.6/clipboard.min.js" integrity="sha256-inc5kl9MA1hkeYUt+EC3BhlIgyp/2jDIyBLS6k3UxPI=" crossorigin="anonymous"></script><!-- headroom.js --><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/headroom.min.js" integrity="sha256-AsUX4SJE1+yuDu5+mAVzJbuYNPHj/WroHuZ8Ir/CkE0=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/headroom/0.11.0/jQuery.headroom.min.js" integrity="sha256-ZX/yNShbjqsohH1k95liqY9Gd8uOiE1S4vZc+9KQ1K4=" crossorigin="anonymous"></script><!-- pkgdown --><link href="../pkgdown.css" rel="stylesheet">
-<script src="../pkgdown.js"></script><meta property="og:title" content="Baseball Scouting Package Overview">
-<!-- mathjax --><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js" integrity="sha256-nvJJv9wWKEm88qvoQl9ekL2J+k/RWIsaSScxxlsrv8k=" crossorigin="anonymous"></script><script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/config/TeX-AMS-MML_HTMLorMML.js" integrity="sha256-84DKXVJXs0/F8OTMzX4UR909+jtl4G7SPypPavF+GfA=" crossorigin="anonymous"></script><!--[if lt IE 9]>
-<script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
-<script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-<![endif]-->
+<script src="../deps/jquery-3.6.0/jquery-3.6.0.min.js"></script><meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<link href="../deps/bootstrap-5.3.1/bootstrap.min.css" rel="stylesheet">
+<script src="../deps/bootstrap-5.3.1/bootstrap.bundle.min.js"></script><link href="../deps/font-awesome-6.5.2/css/all.min.css" rel="stylesheet">
+<link href="../deps/font-awesome-6.5.2/css/v4-shims.min.css" rel="stylesheet">
+<script src="../deps/headroom-0.11.0/headroom.min.js"></script><script src="../deps/headroom-0.11.0/jQuery.headroom.min.js"></script><script src="../deps/bootstrap-toc-1.0.1/bootstrap-toc.min.js"></script><script src="../deps/clipboard.js-2.0.11/clipboard.min.js"></script><script src="../deps/search-1.0.0/autocomplete.jquery.min.js"></script><script src="../deps/search-1.0.0/fuse.min.js"></script><script src="../deps/search-1.0.0/mark.min.js"></script><!-- pkgdown --><script src="../pkgdown.js"></script><meta property="og:title" content="Baseball Scouting Package Overview">
 </head>
-<body data-spy="scroll" data-target="#toc">
+<body>
+    <a href="#main" class="visually-hidden-focusable">Skip to contents</a>
 
 
-    <div class="container template-article">
-      <header><div class="navbar navbar-default navbar-fixed-top" role="navigation">
-  <div class="container">
-    <div class="navbar-header">
-      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false">
-        <span class="sr-only">Toggle navigation</span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-        <span class="icon-bar"></span>
-      </button>
-      <span class="navbar-brand">
-        <a class="navbar-link" href="../index.html">baseballscouting</a>
-        <span class="version label label-default" data-toggle="tooltip" data-placement="bottom" title="">0.0.0.9000</span>
-      </span>
-    </div>
+    <nav class="navbar navbar-expand-lg fixed-top bg-light" data-bs-theme="light" aria-label="Site navigation"><div class="container">
 
-    <div id="navbar" class="navbar-collapse collapse">
-      <ul class="nav navbar-nav">
-<li>
-  <a href="../reference/index.html">Reference</a>
-</li>
-<li class="dropdown">
-  <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-    Articles
+    <a class="navbar-brand me-2" href="../index.html">baseballscouting</a>
 
-    <span class="caret"></span>
-  </a>
-  <ul class="dropdown-menu" role="menu">
-<li>
-      <a href="../articles/baseballscouting_home.html">Baseball Scouting Package Overview</a>
-    </li>
+    <small class="nav-text text-muted me-auto" data-bs-toggle="tooltip" data-bs-placement="bottom" title="">0.1.0</small>
+
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbar" aria-controls="navbar" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div id="navbar" class="collapse navbar-collapse ms-3">
+      <ul class="navbar-nav me-auto">
+<li class="nav-item"><a class="nav-link" href="../reference/index.html">Reference</a></li>
+<li class="active nav-item dropdown">
+  <button class="nav-link dropdown-toggle" type="button" id="dropdown-articles" data-bs-toggle="dropdown" aria-expanded="false" aria-haspopup="true">Articles</button>
+  <ul class="dropdown-menu" aria-labelledby="dropdown-articles">
+<li><a class="dropdown-item" href="../articles/baseballscouting_home.html">Baseball Scouting Package Overview</a></li>
   </ul>
 </li>
+<li class="nav-item"><a class="nav-link" href="../news/index.html">Changelog</a></li>
       </ul>
-<ul class="nav navbar-nav navbar-right">
-<li>
-  <a href="https://github.com/braeden-falzarano/baseballscouting/" class="external-link">
-    <span class="fab fa-github fa-lg"></span>
-
-  </a>
-</li>
+<ul class="navbar-nav">
+<li class="nav-item"><form class="form-inline" role="search">
+ <input class="form-control" type="search" name="search-input" id="search-input" autocomplete="off" aria-label="Search site" placeholder="Search for" data-search-index="../search.json">
+</form></li>
+<li class="nav-item"><a class="external-link nav-link" href="https://github.com/braeden-falzarano/baseballscouting/" aria-label="GitHub"><span class="fa fab fa-github fa-lg"></span></a></li>
       </ul>
 </div>
-<!--/.nav-collapse -->
+
+
   </div>
-<!--/.container -->
-</div>
-<!--/.navbar -->
+</nav><div class="container template-article">
 
 
 
-      </header><div class="row">
-  <div class="col-md-9 contents">
-    <div class="page-header toc-ignore">
-      <h1 data-toc-skip>Baseball Scouting Package Overview</h1>
+
+<div class="row">
+  <main id="main" class="col-md-9"><div class="page-header">
+
+      <h1>Baseball Scouting Package Overview</h1>
             
       
       <small class="dont-index">Source: <a href="https://github.com/braeden-falzarano/baseballscouting/blob/HEAD/vignettes/baseballscouting_home.Rmd" class="external-link"><code>vignettes/baseballscouting_home.Rmd</code></a></small>
-      <div class="hidden name"><code>baseballscouting_home.Rmd</code></div>
-
+      <div class="d-none name"><code>baseballscouting_home.Rmd</code></div>
     </div>
 
     
     
 <div class="sourceCode" id="cb1"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://github.com/braeden-falzarano/baseballscouting" class="external-link">baseballscouting</a></span><span class="op">)</span></span>
-<span><span class="co">#&gt; Warning: replacing previous import 'data.table::last' by 'dplyr::last' when</span></span>
-<span><span class="co">#&gt; loading 'baseballscouting'</span></span>
-<span><span class="co">#&gt; Warning: replacing previous import 'data.table::first' by 'dplyr::first' when</span></span>
-<span><span class="co">#&gt; loading 'baseballscouting'</span></span>
-<span><span class="co">#&gt; Warning: replacing previous import 'MASS::select' by 'dplyr::select' when</span></span>
-<span><span class="co">#&gt; loading 'baseballscouting'</span></span>
-<span><span class="co">#&gt; Warning: replacing previous import 'data.table::between' by 'dplyr::between'</span></span>
-<span><span class="co">#&gt; when loading 'baseballscouting'</span></span></code></pre></div>
+<code class="sourceCode R"><span><span class="kw"><a href="https://rdrr.io/r/base/library.html" class="external-link">library</a></span><span class="op">(</span><span class="va"><a href="https://braeden-falzarano.github.io/baseballscouting/">baseballscouting</a></span><span class="op">)</span></span></code></pre></div>
 <div class="section level2">
 <h2 id="welcome-to-baseballscouting">Welcome to <code>baseballscouting</code><a class="anchor" aria-label="anchor" href="#welcome-to-baseballscouting"></a>
 </h2>
@@ -104,6 +77,12 @@ includes simulation capabilities that allow you to predict outcomes of
 matchups between pitchers and batters. This dual focus makes
 <code>baseballscouting</code> an excellent toolkit for both baseball
 enthusiasts and data analysts.</p>
+<p>All data is downloaded live from <a href="https://baseballsavant.mlb.com/" class="external-link">Baseball Savant</a> (Statcast)
+and the MLB Stats API, so every example needs an internet connection.
+The <code>start_date</code> and <code>end_date</code> arguments control
+the data window. By default, regular-season and postseason games are
+included and spring training is excluded; use the
+<code>game_types</code> argument to change this.</p>
 </div>
 <div class="section level2">
 <h2 id="what-can-you-do-with-baseballscouting">What can you do with <code>baseballscouting</code>?<a class="anchor" aria-label="anchor" href="#what-can-you-do-with-baseballscouting"></a>
@@ -129,38 +108,47 @@ Function<a class="anchor" aria-label="anchor" href="#example-of-analyzing-a-hitt
 <code class="sourceCode R"><span><span class="va">hitter_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">668804</span><span class="op">)</span>  <span class="co"># Bryan Reynolds</span></span>
 <span><span class="va">start_date</span> <span class="op">&lt;-</span> <span class="st">"2024-01-01"</span></span>
 <span><span class="va">end_date</span> <span class="op">&lt;-</span> <span class="st">"2024-12-31"</span></span>
-<span><span class="fu"><a href="../reference/generate_hitter.html">generate_hitter</a></span><span class="op">(</span>player_ids <span class="op">=</span> <span class="va">hitter_ids</span>, start_date <span class="op">=</span> <span class="va">start_date</span>, end_date <span class="op">=</span> <span class="va">end_date</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Fetching data for player 668804 ...</span></span></code></pre></div>
-<p><img src="baseballscouting_home_files/figure-html/unnamed-chunk-2-1.png" width="700"><img src="baseballscouting_home_files/figure-html/unnamed-chunk-2-2.png" width="700"></p>
-<p>The first table shows you the average exit velocity (how fast the
-ball is hit), average launch angle of the ball, hard hit rate
-(percentage of percentage of batted balls hit 95 MPH or greater), and
-strikeout rate (how often a hitter strikes out).</p>
-<p>The heatmaps shows you the average exit velocity of batter across
-different areas of the strike zone. This can give valuable insights into
-where the hitter struggles and where they excel and give a pitcher a
-better idea of where to try to pitch them.</p>
+<span><span class="fu"><a href="../reference/generate_hitter.html">generate_hitter</a></span><span class="op">(</span>player_ids <span class="op">=</span> <span class="va">hitter_ids</span>, start_date <span class="op">=</span> <span class="va">start_date</span>, end_date <span class="op">=</span> <span class="va">end_date</span><span class="op">)</span></span></code></pre></div>
+<p><img src="baseballscouting_home_files/figure-html/hitter-1.png" class="r-plt" alt="Table of Bryan Reynolds' 2024 hitting statistics" width="672"><img src="baseballscouting_home_files/figure-html/hitter-2.png" class="r-plt" alt="Heat map of Bryan Reynolds' average exit velocity across the central strike zone" width="672"></p>
+<p>The first table shows the hitter’s plate appearances, average exit
+velocity (how fast the ball is hit), average launch angle of the ball,
+hard hit rate (percentage of batted balls hit 95 MPH or harder, among
+batted balls with a recorded exit velocity), strikeout rate and walk
+rate (strikeouts or walks divided by plate appearances).</p>
+<p>The heatmap shows the average exit velocity of the batter across
+different areas of the strike zone, from the catcher’s point of view
+(negative horizontal values are on the third-base side). This can give
+valuable insights into where the hitter struggles and where they excel
+and give a pitcher a better idea of where to try to pitch them.</p>
 </div>
 <div class="section level4">
-<h4 id="example-of-analyzing-a-hitter-with-generate_pitcher-function">Example of Analyzing a Hitter with <code>generate_pitcher</code>
-function<a class="anchor" aria-label="anchor" href="#example-of-analyzing-a-hitter-with-generate_pitcher-function"></a>
+<h4 id="example-of-analyzing-a-pitcher-with-generate_pitcher-function">Example of Analyzing a Pitcher with <code>generate_pitcher</code>
+Function<a class="anchor" aria-label="anchor" href="#example-of-analyzing-a-pitcher-with-generate_pitcher-function"></a>
 </h4>
 <div class="sourceCode" id="cb3"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">pitcher_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">605483</span><span class="op">)</span>  <span class="co"># Gerrit Cole</span></span>
+<code class="sourceCode R"><span><span class="va">pitcher_ids</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="fl">543037</span><span class="op">)</span>  <span class="co"># Gerrit Cole</span></span>
 <span><span class="va">start_date</span> <span class="op">&lt;-</span> <span class="st">"2024-01-01"</span></span>
 <span><span class="va">end_date</span> <span class="op">&lt;-</span> <span class="st">"2024-12-31"</span></span>
-<span><span class="fu"><a href="../reference/generate_pitcher.html">generate_pitcher</a></span><span class="op">(</span>player_ids <span class="op">=</span> <span class="va">pitcher_ids</span>, start_date <span class="op">=</span> <span class="va">start_date</span>, end_date <span class="op">=</span> <span class="va">end_date</span><span class="op">)</span></span>
-<span><span class="co">#&gt; Fetching data for player 605483 ...</span></span></code></pre></div>
-<p><img src="baseballscouting_home_files/figure-html/unnamed-chunk-3-1.png" width="700"><img src="baseballscouting_home_files/figure-html/unnamed-chunk-3-2.png" width="700"></p>
-<p>The first table shows the walk rate (how often pitchers walk batters,
-given by a proportion of number of walks divided by batters faced) and
-the strikeout rate (how often a pitcher strikes batters out given by a
-similar proportion).</p>
-<p>The heatmap show how often batters swing and miss at a pitcher’s
-pitches (given by a proportion of number of swings and misses divided by
-the total number of swings). If a pitcher generates more swings and
-misses then this is generally a good indicator that their pitches are
-moving and performing how they want.</p>
+<span><span class="fu"><a href="../reference/generate_pitcher.html">generate_pitcher</a></span><span class="op">(</span>player_ids <span class="op">=</span> <span class="va">pitcher_ids</span>, start_date <span class="op">=</span> <span class="va">start_date</span>, end_date <span class="op">=</span> <span class="va">end_date</span><span class="op">)</span></span></code></pre></div>
+<p><img src="baseballscouting_home_files/figure-html/pitcher-1.png" class="r-plt" alt="Tables of Gerrit Cole's 2024 pitching statistics overall and by pitch type" width="672"><img src="baseballscouting_home_files/figure-html/pitcher-2.png" class="r-plt" alt="Heat map of Gerrit Cole's whiff rate and most-used pitch in each of the nine strike zones, catcher's view" width="672"></p>
+<p>The first table shows the number of batters faced, the walk rate
+(walks, including intentional walks, divided by batters faced), the
+strikeout rate (strikeouts divided by batters faced) and the whiff rate.
+The second table breaks the pitcher’s arsenal down by pitch type: number
+of pitches, usage, average velocity and whiff rate.</p>
+<p>The heatmap shows the whiff rate in each of the nine Statcast strike
+zones: how often batters swing and miss, as a proportion of the swings
+they take at pitches in that zone. Foul tips count as misses, which
+matches Baseball Savant’s Whiff%. Each tile is labeled with its zone
+number and the pitcher’s most-used pitch there. The plot is drawn from
+the catcher’s point of view: zone 1 is high on the third-base side
+(top-left) and zone 9 is low on the first-base side (bottom-right). If a
+pitcher generates more swings and misses then this is generally a good
+indicator that their pitches are moving and performing how they
+want.</p>
+<p>If you pass several player IDs to <code><a href="../reference/generate_pitcher.html">generate_pitcher()</a></code> or
+<code><a href="../reference/generate_hitter.html">generate_hitter()</a></code>, each player gets their own report, and
+the function returns a list of plots named by player ID.</p>
 </div>
 </div>
 <div class="section level3">
@@ -170,74 +158,188 @@ moving and performing how they want.</p>
 matchups between pitchers and batters. These simulations take into
 account factors like:</p>
 <ul>
+<li>The pitcher’s and the batter’s outcome rates (strikeouts, walks,
+hits and outs) per plate appearance.</li>
 <li>The pitcher’s tendencies, pitch types, and locations.</li>
 <li>The hitter’s success rates against different pitches and
 locations.</li>
 </ul>
-<p>For example, you can simulate 1,000 at-bats between a specific
-pitcher and hitter to predict likely outcomes such as strikeouts, walks,
-and hits. These insights can be used for strategy, analysis, or just for
-fun.</p>
+<p>For example, you can simulate 10,000 plate appearances between a
+specific pitcher and hitter to estimate likely outcomes such as
+strikeouts, walks, and hits. These insights can be used for strategy,
+analysis, or just for fun.</p>
 <div class="section level4">
 <h4 id="example-simulating-an-at-bat">Example: Simulating an At-Bat<a class="anchor" aria-label="anchor" href="#example-simulating-an-at-bat"></a>
 </h4>
 <p>Here’s how you can use <code>baseballscouting</code> to simulate
 matchups between a pitcher and a batter. Let’s see how Gerrit Cole might
-fare against Mike Trout over a simulated series of at-bats.</p>
+fare against Mike Trout over a simulated series of plate appearances,
+using their 2022 data. Setting <code>seed</code> makes the result
+reproducible.</p>
 <div class="sourceCode" id="cb4"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="va">results</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/at_bat_sim.html">at_bat_sim</a></span><span class="op">(</span></span>
+<code class="sourceCode R"><span><span class="va">trout</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/at_bat_sim.html">at_bat_sim</a></span><span class="op">(</span></span>
 <span>  pitcher_id <span class="op">=</span> <span class="fl">543037</span>,  <span class="co"># Gerrit Cole</span></span>
 <span>  batter_id <span class="op">=</span> <span class="fl">545361</span>,   <span class="co"># Mike Trout</span></span>
 <span>  start_date <span class="op">=</span> <span class="st">"2022-04-01"</span>,</span>
 <span>  end_date <span class="op">=</span> <span class="st">"2022-10-01"</span>,</span>
-<span>  num_simulations <span class="op">=</span> <span class="fl">1000</span>,</span>
-<span>  num_cores <span class="op">=</span> <span class="fl">2</span></span>
+<span>  num_simulations <span class="op">=</span> <span class="fl">10000</span>,</span>
+<span>  num_cores <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">42</span></span>
 <span><span class="op">)</span></span>
+<span><span class="va">trout</span></span>
 <span><span class="co">#&gt;     Outcome Probability</span></span>
-<span><span class="co">#&gt; 1    double       0.042</span></span>
-<span><span class="co">#&gt; 2    flyout       0.148</span></span>
-<span><span class="co">#&gt; 3 groundout       0.212</span></span>
-<span><span class="co">#&gt; 4  home_run       0.031</span></span>
-<span><span class="co">#&gt; 5    single       0.133</span></span>
-<span><span class="co">#&gt; 6 strikeout       0.362</span></span>
-<span><span class="co">#&gt; 7    triple       0.009</span></span>
-<span><span class="co">#&gt; 8      walk       0.063</span></span></code></pre></div>
+<span><span class="co">#&gt; 1 strikeout      0.3593</span></span>
+<span><span class="co">#&gt; 2      walk      0.0941</span></span>
+<span><span class="co">#&gt; 3    single      0.0757</span></span>
+<span><span class="co">#&gt; 4    double      0.0414</span></span>
+<span><span class="co">#&gt; 5    triple      0.0016</span></span>
+<span><span class="co">#&gt; 6  home_run      0.0903</span></span>
+<span><span class="co">#&gt; 7    flyout      0.2381</span></span>
+<span><span class="co">#&gt; 8 groundout      0.0995</span></span></code></pre></div>
 <p>The output data frame contains two columns:</p>
 <ul>
 <li>
 <code>Outcome</code>: The type of event (e.g., strikeout, walk,
 single, etc.).</li>
 <li>
-<code>Probability</code>: The likelihood of the event occurring,
-based on the simulation results.</li>
+<code>Probability</code>: The share of simulated plate appearances
+that ended in that outcome. The probabilities sum to 1.</li>
 </ul>
-<p>For example:</p>
+<p>To see that the batter matters, here is the same pitcher against a
+much weaker 2022 hitter, Martín Maldonado:</p>
+<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="va">maldonado</span> <span class="op">&lt;-</span> <span class="fu"><a href="../reference/at_bat_sim.html">at_bat_sim</a></span><span class="op">(</span></span>
+<span>  pitcher_id <span class="op">=</span> <span class="fl">543037</span>,  <span class="co"># Gerrit Cole</span></span>
+<span>  batter_id <span class="op">=</span> <span class="fl">455117</span>,   <span class="co"># Martín Maldonado</span></span>
+<span>  start_date <span class="op">=</span> <span class="st">"2022-04-01"</span>,</span>
+<span>  end_date <span class="op">=</span> <span class="st">"2022-10-01"</span>,</span>
+<span>  num_simulations <span class="op">=</span> <span class="fl">10000</span>,</span>
+<span>  num_cores <span class="op">=</span> <span class="fl">2</span>,</span>
+<span>  seed <span class="op">=</span> <span class="fl">42</span></span>
+<span><span class="op">)</span></span>
+<span></span>
+<span><span class="va">comparison</span> <span class="op">&lt;-</span> <span class="fu"><a href="https://rdrr.io/r/base/data.frame.html" class="external-link">data.frame</a></span><span class="op">(</span></span>
+<span>  Outcome <span class="op">=</span> <span class="va">trout</span><span class="op">$</span><span class="va">Outcome</span>,</span>
+<span>  `Cole vs. Trout` <span class="op">=</span> <span class="va">trout</span><span class="op">$</span><span class="va">Probability</span>,</span>
+<span>  `Cole vs. Maldonado` <span class="op">=</span> <span class="va">maldonado</span><span class="op">$</span><span class="va">Probability</span>,</span>
+<span>  check.names <span class="op">=</span> <span class="cn">FALSE</span></span>
+<span><span class="op">)</span></span>
+<span><span class="fu">knitr</span><span class="fu">::</span><span class="fu"><a href="https://rdrr.io/pkg/knitr/man/kable.html" class="external-link">kable</a></span><span class="op">(</span><span class="va">comparison</span>, digits <span class="op">=</span> <span class="fl">3</span><span class="op">)</span></span></code></pre></div>
 <table class="table">
 <thead><tr class="header">
-<th>Outcome</th>
-<th>Probability</th>
+<th align="left">Outcome</th>
+<th align="right">Cole vs. Trout</th>
+<th align="right">Cole vs. Maldonado</th>
 </tr></thead>
 <tbody>
 <tr class="odd">
-<td>strikeout</td>
-<td>0.23</td>
+<td align="left">strikeout</td>
+<td align="right">0.359</td>
+<td align="right">0.383</td>
 </tr>
 <tr class="even">
-<td>walk</td>
-<td>0.08</td>
+<td align="left">walk</td>
+<td align="right">0.094</td>
+<td align="right">0.063</td>
 </tr>
 <tr class="odd">
-<td>single</td>
-<td>0.15</td>
+<td align="left">single</td>
+<td align="right">0.076</td>
+<td align="right">0.072</td>
 </tr>
 <tr class="even">
-<td>…</td>
-<td>…</td>
+<td align="left">double</td>
+<td align="right">0.041</td>
+<td align="right">0.024</td>
+</tr>
+<tr class="odd">
+<td align="left">triple</td>
+<td align="right">0.002</td>
+<td align="right">0.000</td>
+</tr>
+<tr class="even">
+<td align="left">home_run</td>
+<td align="right">0.090</td>
+<td align="right">0.046</td>
+</tr>
+<tr class="odd">
+<td align="left">flyout</td>
+<td align="right">0.238</td>
+<td align="right">0.216</td>
+</tr>
+<tr class="even">
+<td align="left">groundout</td>
+<td align="right">0.100</td>
+<td align="right">0.196</td>
 </tr>
 </tbody>
 </table>
-<p>This gives you an analytical view of how the matchup could play out
-based on the players’ historical data.</p>
+<p>Against the same pitcher, Trout walks more, hits for much more power
+and grounds out less, which reflects how the two hitters actually
+performed that season. This gives you an analytical view of how the
+matchup could play out based on the players’ historical data.</p>
+<p>The inputs behind each simulation (the plate-appearance counts and
+the batter, pitcher, league and combined rates) are stored in the
+<code>"matchup"</code> attribute:</p>
+<div class="sourceCode" id="cb6"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu"><a href="https://rdrr.io/r/base/attr.html" class="external-link">attr</a></span><span class="op">(</span><span class="va">trout</span>, <span class="st">"matchup"</span><span class="op">)</span><span class="op">[</span><span class="fu"><a href="https://rdrr.io/r/base/c.html" class="external-link">c</a></span><span class="op">(</span><span class="st">"pitcher_pa"</span>, <span class="st">"batter_pa"</span><span class="op">)</span><span class="op">]</span></span>
+<span><span class="co">#&gt; $pitcher_pa</span></span>
+<span><span class="co">#&gt; [1] 771</span></span>
+<span><span class="co">#&gt; </span></span>
+<span><span class="co">#&gt; $batter_pa</span></span>
+<span><span class="co">#&gt; [1] 480</span></span></code></pre></div>
+</div>
+<div class="section level4">
+<h4 id="how-the-simulation-works">How the simulation works<a class="anchor" aria-label="anchor" href="#how-the-simulation-works"></a>
+</h4>
+<p>Each simulated plate appearance goes through four steps:</p>
+<ol style="list-style-type: decimal">
+<li>
+<strong>Sample a pitch.</strong> A pitch type is drawn from the
+pitcher’s mix of the pitches that ended plate appearances. A location is
+then drawn from a smoothed map (a 2D kernel density estimate) of where
+that pitch type was thrown. Pitch types with fewer than 30 such pitches
+use the map for all of the pitcher’s pitches.</li>
+<li>
+<strong>Combine the batter, the pitcher and the league.</strong>
+Each player’s rates for the eight outcomes are computed per plate
+appearance. They are first shrunk toward the league average, as if each
+player had 50 extra league-average plate appearances
+(<code>prior_pa</code>), so small samples don’t produce extreme values.
+The batter’s and the pitcher’s rates are then combined with the
+odds-ratio (generalized log5) method: an outcome gets more likely when
+both players are above league average at it.</li>
+<li>
+<strong>Adjust for pitch type and location.</strong> The
+probabilities of a single, double, triple and home run are scaled by how
+well this batter has done on that pitch type in that part of the zone,
+relative to the batter’s overall hit rate. That rate is also shrunk
+toward the batter’s average, so sparse areas have little effect, and the
+adjustment is capped at between half and double
+(<code>multiplier_range</code>). If the batter has no data there,
+nothing changes: a missing bin never counts as a strikeout.</li>
+<li>
+<strong>Repeat thousands of times in parallel.</strong> The outcome
+is drawn from the adjusted probabilities, and the results are tallied
+across all simulated plate appearances.</li>
+</ol>
+<p>Main assumptions and limitations:</p>
+<ul>
+<li>Each plate appearance is decided by one sampled decisive pitch. The
+ball-strike count and pitch sequencing are not modeled.</li>
+<li>There are no park, handedness (platoon) or weather adjustments,
+beyond what is already reflected in each player’s own data for the
+window.</li>
+<li>The league baseline is an approximate constant MLB average
+(strikeout 23%, walk 8%, single 15%, and so on), not a season-specific
+value. You can supply your own with <code>league_rates</code>.</li>
+<li>Hit-by-pitch is counted as a walk, and catcher’s interference is
+left out.</li>
+<li>When both players are above league average at an outcome, the
+odds-ratio method predicts a rate above both of them. For example, Cole
+and Trout both struck out more than the league in 2022, so the simulated
+strikeout rate is higher than either player’s own rate.</li>
+</ul>
 </div>
 <div class="section level4">
 <h4 id="adjusting-parameters">Adjusting Parameters<a class="anchor" aria-label="anchor" href="#adjusting-parameters"></a>
@@ -248,7 +350,14 @@ performance:</p>
 <li>Increasing <code>num_simulations</code> provides more accurate
 probabilities but takes longer to compute.</li>
 <li>Increasing <code>num_cores</code> utilizes more CPU cores for faster
-computation (useful for large simulations).</li>
+computation (useful for large simulations). With a fixed
+<code>seed</code>, the results are identical for any number of
+cores.</li>
+<li>
+<code>prior_pa</code>, <code>location_prior_pa</code>,
+<code>multiplier_range</code> and <code>league_rates</code> control the
+modeling choices described above. See <code><a href="../reference/at_bat_sim.html">?at_bat_sim</a></code> for
+details.</li>
 </ul>
 </div>
 </div>
@@ -271,6 +380,9 @@ the sport.</li>
 <li>Ensure that the pitcher and batter IDs are valid Statcast IDs.</li>
 <li>Parallel processing (<code>num_cores</code>) may require additional
 setup on some systems (e.g., Windows).</li>
+<li>A warning is shown when either player has fewer than 50 plate
+appearances in the chosen window; the simulation then relies mostly on
+league averages.</li>
 </ol>
 </div>
 </div>
@@ -279,8 +391,8 @@ setup on some systems (e.g., Windows).</li>
 </h2>
 <p>To begin, install the package (code below) and start exploring! Here
 are some additional resources to guide you:</p>
-<div class="sourceCode" id="cb5"><pre class="downlit sourceCode r">
-<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://remotes.r-lib.org/reference/install_github.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"braeden-falzarano/baseballscouting"</span><span class="op">)</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="downlit sourceCode r">
+<code class="sourceCode R"><span><span class="fu">devtools</span><span class="fu">::</span><span class="fu"><a href="https://devtools.r-lib.org/reference/install-deprecated.html" class="external-link">install_github</a></span><span class="op">(</span><span class="st">"braeden-falzarano/baseballscouting"</span><span class="op">)</span></span></code></pre></div>
 <ul>
 <li><a href="https://www.smartfantasybaseball.com/tools/" class="external-link">Find a
 Player’s ID Here</a></li>
@@ -292,29 +404,22 @@ the Full Repository</a></li>
 <p>We’re excited to see what insights you uncover with
 <code>baseballscouting</code>!</p>
 </div>
-  </div>
-
-  <div class="col-md-3 hidden-xs hidden-sm" id="pkgdown-sidebar">
-
-      </div>
-
+  </main><aside class="col-md-3"><nav id="toc" aria-label="Table of contents"><h2>On this page</h2>
+    </nav></aside>
 </div>
 
 
 
-      <footer><div class="copyright">
-  <p></p>
-<p>Developed by Braeden Falzarano, Ernie Little.</p>
+    <footer><div class="pkgdown-footer-left">
+  <p>Developed by Braeden Falzarano, Ernie Little.</p>
 </div>
 
-<div class="pkgdown">
-  <p></p>
-<p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.1.1.</p>
+<div class="pkgdown-footer-right">
+  <p>Site built with <a href="https://pkgdown.r-lib.org/" class="external-link">pkgdown</a> 2.2.0.</p>
 </div>
 
-      </footer>
+    </footer>
 </div>
-
 
 
 

@@ -10,48 +10,137 @@ at_bat_sim(
   start_date,
   end_date,
   num_simulations = 1000,
-  num_cores = 2
+  num_cores = 2,
+  seed = NULL,
+  league_rates = NULL,
+  prior_pa = 50,
+  location_prior_pa = 20,
+  multiplier_range = c(0.5, 2),
+  game_types = c("R", "PO"),
+  verbose = FALSE
 )
 }
 \arguments{
-\item{pitcher_id}{Numeric. The ID of the pitcher (Statcast pitcher ID).}
+\item{pitcher_id}{Numeric. The ID of the pitcher (Statcast / MLBAM pitcher ID).}
 
-\item{batter_id}{Numeric. The ID of the batter (Statcast batter ID).}
+\item{batter_id}{Numeric. The ID of the batter (Statcast / MLBAM batter ID).}
 
 \item{start_date}{Character. The start date of the data retrieval period in "YYYY-MM-DD" format.}
 
 \item{end_date}{Character. The end date of the data retrieval period in "YYYY-MM-DD" format.}
 
-\item{num_simulations}{Numeric. The number of at-bat simulations to perform. Default is 1000.}
+\item{num_simulations}{Numeric. The number of plate appearances to simulate. Default is 1000.}
 
 \item{num_cores}{Numeric. The number of CPU cores to use for parallel processing. Default is 2.}
+
+\item{seed}{Optional integer. When supplied, results are reproducible, including across
+different values of \code{num_cores}. Default \code{NULL} draws a seed from the current R session,
+so calling \code{\link[=set.seed]{set.seed()}} beforehand also makes results reproducible.}
+
+\item{league_rates}{Optional named numeric vector of league outcome rates with names
+\code{strikeout}, \code{walk}, \code{single}, \code{double}, \code{triple}, \code{home_run}, \code{flyout}, \code{groundout}.
+It is normalized to sum to 1. Default \code{NULL} uses an approximate MLB average (see Details).}
+
+\item{prior_pa}{Numeric. Prior strength, in plate appearances, used to shrink each
+player's outcome rates toward \code{league_rates}. Default is 50.}
+
+\item{location_prior_pa}{Numeric. Prior strength, in plate appearances, used to shrink
+the batter's hit rate in each pitch type and location bin toward the batter's pitch-type rate,
+and the pitch-type rate toward the batter's overall rate. Default is 20.}
+
+\item{multiplier_range}{Numeric vector of length 2. The location/pitch-type multiplier
+applied to hit outcomes is clipped to this range. Default is \code{c(0.5, 2)}.}
+
+\item{game_types}{Character vector of Baseball Savant game type codes to include.
+Default \code{c("R", "PO")} is regular season and postseason; add \code{"S"} for spring training.}
+
+\item{verbose}{Logical. If \code{TRUE}, prints sample sizes and the pre-location outcome rates.
+Default is \code{FALSE}.}
 }
 \value{
-A data frame summarizing the simulated probabilities of each at-bat outcome.
+A data frame with one row per outcome and columns \code{Outcome} and \code{Probability}
+(the share of simulated plate appearances ending in that outcome; sums to 1). The
+attribute \code{"matchup"} holds the inputs to the simulation: plate-appearance counts, the
+shrunken batter and pitcher rates, the league rates and the combined (pre-location) rates.
 }
 \description{
-This function simulates the outcomes of at-bats between a specified pitcher and batter
-based on historical data retrieved from Statcast. The function uses kernel density
-estimation (KDE) to model pitch locations and adjusts probabilities based on
-batter performance data.
+This function simulates plate appearances between a specified pitcher and batter
+using their Statcast data. Outcome probabilities combine the batter's, the pitcher's
+and the league's outcome rates with the odds-ratio (generalized log5) method, and are
+then adjusted for the batter's success against the sampled pitch type and location.
 }
 \details{
-The function retrieves historical data for the specified pitcher and batter from Statcast,
-segments pitch locations into bins, and calculates success probabilities for the batter
-by pitch location. Using KDE, pitch locations are sampled for each simulation, and outcomes
-are determined based on both pitcher and batter data.
+\strong{Data.} Pitch-level Statcast data for both players is downloaded from Baseball Savant
+for the date window. Rates are computed per plate appearance (PA): one row per PA, the
+row whose \code{events} is non-empty.
 
-The simulation process is parallelized for efficiency, utilizing the specified number of cores.
+\strong{Outcome mapping.} Statcast \code{events} are mapped to eight outcomes:
+\itemize{
+\item \code{strikeout}, \code{strikeout_double_play} become \strong{strikeout}.
+\item \code{walk}, \code{intent_walk} and \code{hit_by_pitch} become \strong{walk}. Hit-by-pitch is folded in
+because it has the same result for the batter (they reach first base).
+\item \code{single}, \code{double}, \code{triple}, \code{home_run} map to themselves.
+\item Other in-play outs, fielder's choices, reached-on-error and sacrifices
+(\code{field_out}, \code{force_out}, \code{grounded_into_double_play}, \code{double_play}, \code{triple_play},
+\code{fielders_choice}, \code{fielders_choice_out}, \code{field_error}, \code{sac_fly}, \code{sac_bunt},
+\code{sac_fly_double_play}, \code{sac_bunt_double_play}) become \strong{groundout} when
+\code{bb_type == "ground_ball"} and \strong{flyout} otherwise (fly ball, line drive, popup).
+\item Excluded: \code{catcher_interf}, and rows that do not complete a PA (\code{truncated_pa},
+\verb{caught_stealing_*}, \verb{pickoff_*}, \verb{stolen_base_*}, \code{wild_pitch}, \code{passed_ball},
+\code{other_out}, \code{other_advance}, \code{runner_double_play}, \code{game_advisory}, \code{ejection}).
+}
+
+\strong{Combining batter and pitcher.} Each player's outcome counts are shrunk toward the
+league rates by adding \code{prior_pa} pseudo-PAs at league rates:
+\eqn{\tilde p(o) = (n_o + k\,p_{lg}(o)) / (n + k)}. The two are combined with the
+odds-ratio (generalized log5) rule
+\eqn{p(o) \propto p_{bat}(o)\,p_{pit}(o) / p_{lg}(o)}, normalized to sum to 1.
+
+The default league baseline is an approximate, constant MLB average per PA:
+strikeout 0.23, walk 0.08, single 0.15, double 0.05, triple 0.005, home run 0.03,
+flyout 0.20, groundout 0.24, normalized from a total of 0.985 to 1. It is not
+season-specific. Supply \code{league_rates} to use your own.
+
+\strong{Pitch type and location.} For each simulated PA a pitch type is sampled from the
+pitcher's mix of PA-ending pitches, and a location from a 2D kernel density estimate
+(\code{\link[MASS:kde2d]{MASS::kde2d()}}, 50 x 50 grid, uniform jitter within the grid cell) of the pitcher's PA-ending
+pitches of that type. Pitch types with fewer than 30 PA-ending pitches use the KDE of all
+the pitcher's PA-ending pitches. The batter's hit rate (hits per PA) is computed in 0.5 ft bins of
+\code{plate_x} (-2 to 2) and \code{plate_z} (0 to 5) for each pitch type, shrunk toward the batter's rate on
+that pitch type, which is shrunk toward the overall rate (both with \code{location_prior_pa}).
+The four hit outcomes are multiplied by \verb{bin rate / overall rate}, clipped to
+\code{multiplier_range}, and the probabilities are renormalized. When the batter has no PAs in a
+bin, the bin rate equals the pitch-type rate; when the batter has never ended a PA on that pitch
+type, or the location falls outside the bins, the multiplier is 1. A missing bin never
+produces a strikeout. Pitch types must match exactly (for example, \code{SI} and \code{FF} are
+different pitches).
+
+\strong{Main simplification.} Each simulated PA is decided by one sampled decisive pitch. The
+count and pitch sequencing are not modeled, and there are no park, handedness or
+platoon adjustments beyond what is already in each player's own data. The location
+adjustment is relative to the batter's own average, so a pitcher's location tendencies
+are partly reflected both in the pitcher's outcome rates and in the multiplier.
+
+\strong{Reproducibility.} Simulations run in fixed chunks of 1000 PAs, and each chunk gets
+its own L'Ecuyer-CMRG random-number stream derived from \code{seed}
+(\code{\link[parallel:RngStream]{parallel::nextRNGStream()}}). Because the streams belong to the chunks rather than to
+the workers, the same \code{seed} gives identical results for any \code{num_cores}. The global
+random-number state is restored when the function returns.
+
+A warning is issued when either player has fewer than 50 PAs in the window.
 }
 \examples{
-# Simulate at-bats between Gerrit Cole and Mike Trout in the 2022 season
+\donttest{
+# Simulate plate appearances between Gerrit Cole and Mike Trout in the 2022 season
 at_bat_sim(
   pitcher_id = 543037,  # Gerrit Cole
   batter_id = 545361,   # Mike Trout
   start_date = "2022-04-01",
   end_date = "2022-10-01",
   num_simulations = 10000,
-  num_cores = 2
+  num_cores = 2,
+  seed = 42
 )
+}
 
 }
